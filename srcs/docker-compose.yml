@@ -1,11 +1,12 @@
 version: "3.9"  # optional since v1.27.0
 services:
-  db:
+  mariadb:
     # image: mysql:8.0
     build:
       context: ./requirements/mariadb/
       dockerfile: Dockerfile
-    container_name: db
+    container_name: mariadb
+    image: mariadb
     restart: unless-stopped
     env_file: .env
     environment:
@@ -18,14 +19,15 @@ services:
 
   wordpress:
     depends_on:
-      - db
+      - mariadb
     build:
       context: ./requirements/wordpress/
       dockerfile: Dockerfile
     container_name: wordpress
+    image: wordpress
     env_file: .env
     environment:
-      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_HOST=mariadb:3306
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
@@ -42,6 +44,7 @@ services:
       context: ./requirements/nginx/
       dockerfile: Dockerfile
     container_name: nginx
+    image: nginx
     restart: unless-stopped
     ports:
       - "80:80"

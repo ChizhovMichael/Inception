@@ -6,13 +6,15 @@ RUN	apk add mysql mysql-client --no-cache
 RUN apk add bash openrc
 
 RUN mkdir -p /run/mysqld
+# create mysql datadir
 RUN	mkdir -p /var/lib/mysql
 COPY ./conf/my.cnf /etc/mysql/
-COPY ./tools/init /root/init
+# COPY ./tools/init /root/init
 RUN	rm -rf /etc/my.cnf*
 
-EXPOSE 3306
+COPY ./tools/docker-entrypoint.sh /root/init.sh
+RUN chmod 755 /root/init.sh
+ENTRYPOINT ["/root/init.sh"]
 
-COPY ./tools/start.sh /home/start.sh
-RUN chmod 755 /home/start.sh
-ENTRYPOINT ["/home/start.sh"]
+EXPOSE 3306 33060
+CMD ["mysqld"]
