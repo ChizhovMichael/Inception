@@ -21,3 +21,4 @@ docker run -d --name wordpress-container -p 9000:9000 wordpress-image
 # Stop Container: docker stop mynginx
 # Delete Container: docker rm mynginx
 # docker exec -it <container> bash
+# docker inspect nginx

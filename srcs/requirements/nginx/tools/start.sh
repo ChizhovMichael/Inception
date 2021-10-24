@@ -2,5 +2,5 @@
 
 openrc
 touch /run/openrc/softlevel
-nginx -g 'daemon off;'
+/usr/bin/supervisord -c /etc/supervisord.conf
 # bash

@@ -1,7 +1,7 @@
-FROM alpine:3.12
+FROM alpine:3.13
 
 RUN apk update && apk upgrade
-RUN apk add openssl nginx
+RUN apk add openssl nginx supervisor
 # bash
 RUN apk add --no-cache bash
 # rc-service
@@ -17,8 +17,10 @@ RUN mkdir /www
 RUN	mkdir -p /run/nginx
 RUN chmod 775 /run/nginx/
 COPY ./conf/default.conf /etc/nginx/conf.d/
+# Supervisord
+COPY ./conf/supervisord.conf /etc/supervisord.conf
 
-EXPOSE 80 443
+EXPOSE 443
 
 COPY ./tools/start.sh /home/start.sh
 RUN chmod 755 /home/start.sh
