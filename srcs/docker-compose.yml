@@ -54,17 +54,7 @@ services:
 
 volumes:
   wordpress:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/Users/tgildero/Desktop/data/wordpress' # изменить путь
   dbdata:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/Users/tgildero/Desktop/data/dbdata' # изменить путь
 
 networks:
   app-network:
