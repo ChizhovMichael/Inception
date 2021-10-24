@@ -6,14 +6,16 @@ RUN	apk add mysql mysql-client perl supervisor --no-cache
 RUN apk add bash openrc
 
 RUN mkdir -p /run/mysqld
+# create mysql datadir
 RUN	mkdir -p /var/lib/mysql
 COPY ./conf/my.cnf /etc/mysql/
 RUN	rm -rf /etc/my.cnf*
 # Supervisord
 COPY ./conf/supervisord.conf /etc/supervisord.conf
 
-EXPOSE 3306
+COPY ./tools/docker-entrypoint.sh /root/init.sh
+RUN chmod 755 /root/init.sh
+ENTRYPOINT ["/root/init.sh"]
 
-COPY ./tools/start.sh /home/start.sh
-RUN chmod 755 /home/start.sh
-ENTRYPOINT ["/home/start.sh"]
+EXPOSE 3306 33060
+CMD ["mysqld"]
