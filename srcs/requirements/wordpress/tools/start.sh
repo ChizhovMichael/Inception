@@ -10,5 +10,5 @@ wp-cli --path=/var/www/html user create user1 sdf1@sdf.ru --role=editor --user_p
 
 openrc
 touch /run/openrc/softlevel
-/usr/bin/supervisord -c /etc/supervisord.conf
+/usr/sbin/php-fpm7
 # bash

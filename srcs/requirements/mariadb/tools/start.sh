@@ -32,5 +32,5 @@ fi
 
 perl -pe 's/\$([_A-Z]+)/$ENV{$1}/g' < /root/init-sample > /root/init
 rm /root/init-sample
-/usr/bin/supervisord -c /etc/supervisord.conf
+/usr/bin/mysqld --datadir='/var/lib/mysql' --init_file=/root/init
 # bash
