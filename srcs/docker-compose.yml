@@ -51,6 +51,24 @@ services:
     networks:
       - app-network
 
+  ftp:
+    depends_on:
+      - nginx
+    build:
+      context: ./requirements/bonus/ftp/
+      dockerfile: Dockerfile
+    container_name: ftp
+    image: ftp
+    env_file: .env
+    restart: always
+    ports:
+      - "21:21"
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - app-network
+
+
 volumes:
   wordpress:
     driver: local

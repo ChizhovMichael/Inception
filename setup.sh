@@ -3,6 +3,7 @@ docker kill $(docker ps -q)
 
 docker container prune --force
 docker image prune --all
+docker volume prune
 
 
 # nginx
@@ -22,3 +23,5 @@ docker run -d --name wordpress-container -p 9000:9000 wordpress-image
 # Delete Container: docker rm mynginx
 # docker exec -it <container> bash
 # docker inspect nginx
+# /var/lib/docker/volumes/srcs_wordpress/_data
+# docker inspect {{range .Mounts}}{{.Type}}:{{.Source}}:{{.Destination}}{{println}}{{ end }}
