@@ -2,7 +2,7 @@ FROM alpine:3.13
 RUN apk update && apk upgrade
 
 # bash and rc-service
-RUN apk add bash openrc
+RUN apk add bash openrc npm
 
 # install simple_vue
 RUN mkdir -p /var/www/simple_vue
@@ -11,7 +11,7 @@ RUN chmod 775 /var/www/simple_vue
 # copy config wp
 COPY ./tools/simple_vue /var/www/simple_vue
 
-EXPOSE 9000
+EXPOSE 4000
 
 COPY ./tools/start.sh /home/start.sh
 RUN chmod 755 /home/start.sh

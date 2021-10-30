@@ -48,6 +48,7 @@ services:
       - "443:443"
     volumes:
       - wordpress:/var/www/html
+      - simple_vue:/var/www/simple_vue
     networks:
       - app-network
 
@@ -68,6 +69,33 @@ services:
     networks:
       - app-network
 
+  simple_vue:
+    depends_on:
+      - ftp
+    build:
+      context: ./requirements/bonus/simple_vue/
+      dockerfile: Dockerfile
+    container_name: simple_vue
+    image: simple_vue
+    env_file: .env
+    restart: always
+    volumes:
+      - simple_vue:/var/www/simple_vue
+    networks:
+      - app-network
+  
+  redis:
+    depends_on:
+      - simple_vue
+    build:
+      context: ./requirements/bonus/redis/
+      dockerfile: Dockerfile
+    container_name: redis
+    image: redis
+    restart: always
+    networks:
+      - app-network
+
 
 volumes:
   wordpress:
@@ -75,13 +103,19 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/michael/data/wordpress'
+      device: '~/Desktop/data/wordpress'
   dbdata:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/michael/data/dbdata'
+      device: '~/Desktop/data/dbdata'
+  simple_vue:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '~/Desktop/data/simple_vue'
 
 networks:
   app-network:
