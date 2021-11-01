@@ -29,6 +29,7 @@ services:
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
+      - REDIS_HOST=redis
     restart: always
     volumes:
       - wordpress:/var/www/html
@@ -92,7 +93,10 @@ services:
       dockerfile: Dockerfile
     container_name: redis
     image: redis
+    env_file: .env
     restart: always
+    ports:
+      - "6379:6379"
     networks:
       - app-network
 
@@ -103,19 +107,19 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '~/Desktop/data/wordpress'
+      device: '~/data/wordpress'
   dbdata:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '~/Desktop/data/dbdata'
+      device: '~/data/dbdata'
   simple_vue:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '~/Desktop/data/simple_vue'
+      device: '~/data/simple_vue'
 
 networks:
   app-network:
