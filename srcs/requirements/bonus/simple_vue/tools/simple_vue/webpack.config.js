@@ -7,7 +7,8 @@ module.exports = {
             directory: path.join(__dirname, 'dst'),
         },
         compress: true,
-        port: 4000,
+        host: '0.0.0.0',
+        port: 4000
     },
 };
 
