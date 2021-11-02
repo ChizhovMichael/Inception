@@ -2,7 +2,7 @@ FROM alpine:3.13
 RUN apk update && apk upgrade
 
 # bash and rc-service
-RUN apk add bash openrc npm
+RUN apk add bash openrc npm php
 
 # install simple_vue
 RUN mkdir -p /var/www/simple_vue

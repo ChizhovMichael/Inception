@@ -36,9 +36,39 @@ services:
     networks:
       - app-network
 
-  nginx:
+  adminer:
     depends_on:
       - wordpress
+    build:
+      context: ./requirements/bonus/adminer/
+      dockerfile: Dockerfile
+    container_name: adminer
+    image: adminer
+    env_file: .env
+    restart: always
+    volumes:
+      - adminer:/var/www/adminer
+    networks:
+      - app-network
+
+  simple_vue:
+    depends_on:
+      - adminer
+    build:
+      context: ./requirements/bonus/simple_vue/
+      dockerfile: Dockerfile
+    container_name: simple_vue
+    image: simple_vue
+    env_file: .env
+    restart: always
+    volumes:
+      - simple_vue:/var/www/simple_vue
+    networks:
+      - app-network
+
+  nginx:
+    depends_on:
+      - simple_vue
     build:
       context: ./requirements/nginx/
       dockerfile: Dockerfile
@@ -68,25 +98,10 @@ services:
       - wordpress:/var/www/html
     networks:
       - app-network
-
-  simple_vue:
-    depends_on:
-      - ftp
-    build:
-      context: ./requirements/bonus/simple_vue/
-      dockerfile: Dockerfile
-    container_name: simple_vue
-    image: simple_vue
-    env_file: .env
-    restart: always
-    volumes:
-      - simple_vue:/var/www/simple_vue
-    networks:
-      - app-network
   
   redis:
     depends_on:
-      - simple_vue
+      - ftp
     build:
       context: ./requirements/bonus/redis/
       dockerfile: Dockerfile
@@ -94,21 +109,6 @@ services:
     image: redis
     env_file: .env
     restart: always
-    networks:
-      - app-network
-
-  adminer:
-    depends_on:
-      - redis
-    build:
-      context: ./requirements/bonus/adminer/
-      dockerfile: Dockerfile
-    container_name: adminer
-    image: adminer
-    env_file: .env
-    restart: always
-    volumes:
-      - adminer:/var/www/adminer
     networks:
       - app-network
 
