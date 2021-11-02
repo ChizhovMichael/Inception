@@ -48,6 +48,7 @@ services:
     ports:
       - "443:443"
       - "4000:4000"
+      - "5000:5000"
     volumes:
       - wordpress:/var/www/html
     networks:
@@ -63,8 +64,6 @@ services:
     image: ftp
     env_file: .env
     restart: always
-    ports:
-      - "21:21"
     volumes:
       - wordpress:/var/www/html
     networks:
@@ -98,6 +97,20 @@ services:
     networks:
       - app-network
 
+  adminer:
+    depends_on:
+      - redis
+    build:
+      context: ./requirements/bonus/adminer/
+      dockerfile: Dockerfile
+    container_name: adminer
+    image: adminer
+    env_file: .env
+    restart: always
+    volumes:
+      - adminer:/var/www/adminer
+    networks:
+      - app-network
 
 volumes:
   wordpress:
@@ -118,6 +131,12 @@ volumes:
       type: 'none'
       o: 'bind'
       device: '~/data/simple_vue'
+  adminer:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '~/data/adminer'
 
 networks:
   app-network:
