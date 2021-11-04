@@ -25,3 +25,4 @@ docker run -d --name wordpress-container -p 9000:9000 wordpress-image
 # docker inspect nginx
 # /var/lib/docker/volumes/srcs_wordpress/_data
 # docker inspect {{range .Mounts}}{{.Type}}:{{.Source}}:{{.Destination}}{{println}}{{ end }}
+# docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx

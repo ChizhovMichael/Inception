@@ -112,6 +112,23 @@ services:
     networks:
       - app-network
 
+  ssh:
+    depends_on:
+      - redis
+    build:
+      context: ./requirements/bonus/ssh/
+      dockerfile: Dockerfile
+    container_name: ssh
+    image: ssh
+    env_file: .env
+    restart: always
+    volumes:
+      - wordpress:/var/www/html
+      - simple_vue:/var/www/simple_vue
+      - adminer:/var/www/adminer
+    networks:
+      - app-network
+
 volumes:
   wordpress:
     driver: local
